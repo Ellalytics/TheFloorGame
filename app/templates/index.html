@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>duel Stage</title>
+    <style>
+        body {
+            text-align: center; /* Centers the content */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #questionImage {
+            width: 80%; /* Adjusts the size of the image */
+            max-width: 600px; /* Maximum size */
+            height: auto;
+            display: block;
+            margin: 20px auto; /* Centers the image and adds space above and below */
+        }
+
+        .timers {
+            display: flex;
+            justify-content: center;
+            gap: 200px;
+            margin-top: 20px;
+        }
+
+        .timer {
+            font-size: 30px;
+            color: grey;
+        }
+
+        .text-line {
+            margin-top: 20px; /* Added margin-top for spacing */
+            background-color: #f0f0f0;
+            padding: 10px 0;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<img id="questionImage" src="{{ url_for('static', filename='img/not_started.png') }}">
+
+<div class="text-line" id="answerText">?</div>
+
+<div class="timers">
+    <div id="timer1" class="timer">00:45</div>
+    <div id="timer2" class="timer">00:45</div>
+</div>
+
+<script src="{{ url_for('static', filename='js/duel_player.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>duel Judge</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px; /* Space between rows */
+        }
+
+        .button, button, select {
+            width: 150px; /* Uniform width */
+            height: 50px; /* Uniform height */
+            font-size: 20px; /* Larger text */
+            margin: 10px; /* Spacing around elements */
+            cursor: pointer;
+        }
+
+        #categorySelect {
+            margin-right: 0; /* Adjust if needed for alignment */
+            margin-left: 10px; /* Align spacing with buttons */
+        }
+
+        #questionImage {
+            width: 80%; /* Adjusts the size of the image */
+            max-width: 600px; /* Maximum size */
+            height: auto;
+            display: block;
+            margin: 20px auto; /* Centers the image and adds space above and below */
+        }
+
+        .text-line {
+            margin: 20px; /* Added margin for spacing */
+            padding: 10px 0;
+            font-size: 40px;
+        }
+
+        #startButton { /* Style the start button similarly */
+            background-color: blue; /* Bootstrap-like blue for visual consistency */
+            color: white; /* Text color */
+            border-radius: 5px; /* Optional: rounded corners */
+        }
+
+        #correctButton {
+            background-color: lightgreen;
+            margin-right: 50px; /* Half the desired space on the right */
+        }
+
+        #passButton {
+            background-color: lightcoral;
+            margin-left: 50px; /* Half the desired space on the left */
+        }
+    </style>
+</head>
+<body>
+<div class="row">
+    <select id="categorySelect">
+        <option value="bugs">bugs</option>
+        <option value="apps">apps</option>
+        <option value="landmarks">landmarks</option>
+        <option value="states">states</option>
+        <option value="countries">countries</option>
+    </select>
+    <button id="startButton" onclick="startCategory()">Start</button>
+</div>
+
+<img id="questionImage" src="{{ url_for('static', filename='img/not_started.png') }}">
+
+<div class="text-line" id="answerText"></div>
+
+<div class="row">
+    <button id="correctButton" class="button" onclick="submitStatus('CORRECT')">CORRECT</button>
+    <button id="passButton" class="button" onclick="submitStatus('PASS')">PASS</button>
+</div>
+
+<script src="{{ url_for('static', filename='js/duel_judge.js') }}"></script>
+
+</body>
+</html>
