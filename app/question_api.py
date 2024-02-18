@@ -22,7 +22,7 @@ def get_next_question():
     category = wait_for_duel_start()
 
     # Define the path to the category's image directory
-    images_dir_path = f'/static/img/category/{category}/'
+    images_dir_path = f'/Users/xue/Documents/workspace/FloorDuet/app/static/img/category/{category}'
 
     # List all files in the directory
     try:
@@ -33,17 +33,16 @@ def get_next_question():
     # Select a random image from the list
     selected_image = choice(images_list)
 
-    # Construct the path for the selected image
-    image_path = f'{images_dir_path}/{selected_image}'
-
     # Use the filename as the answer
     answer = selected_image.split('.')[0]  # Removes the file extension
 
-    return jsonify({
-        "image_path": image_path,
-        "answer": answer
-    })
+    # Generate web-accessible URL for the image
+    image_url = url_for('static', filename=f'img/category/{category}/{selected_image}')
 
+    return jsonify({
+        "image_url": image_url,  # Return the web-accessible URL instead
+        "answer_text": answer
+    })
 
 @question_api_bp.route('/status')
 def get_question_status():
