@@ -30,7 +30,7 @@ function switchPlayer() {
 
 async function loadQuestion() {
     try {
-        const response = await fetch('/question/next');
+        const response = await fetch('/question/image-update');
         const data = await response.json();
         document.getElementById('questionImage').src = data.image_url;
         currentQuestion.answerText = data.answer_text;
@@ -75,8 +75,23 @@ async function getQuestionStatus() {
         console.error('Error fetching the next question:', error);
     }
 }
-
+async function checkStartSignal() {
+    try {
+        const response = await fetch('/question/start-signal');
+        const data = await response.json();
+        return data.start; // Assuming the response includes a "start" boolean flag
+    } catch (error) {
+        console.error('Error checking start signal:', error);
+        return false; // Default to false if there's an error
+    }
+}
 async function runduel() {
+    let start = await checkStartSignal();
+    while (!start) {
+        // Wait for 1 second before checking again
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        start = await checkStartSignal();
+    }
     switchPlayer()
     while (msLeft > 0 && !isComplete) {
         await loadQuestion();
