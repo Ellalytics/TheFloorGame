@@ -40,4 +40,3 @@ def update_question_status_globally(new_status):
     with question_status_condition:
         question_status = new_status
         question_status_condition.notify_all()
-

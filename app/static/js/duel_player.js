@@ -95,30 +95,26 @@ async function runduel() {
     await loadQuestion()  // load first question
     switchPlayer() // select a player
     let timer = runTimer();   // start the timer
-
     while (!isComplete) {
         let status = await getQuestionStatus();
         if (msLeft <= 0) {
             pauseTimer(timer);
             isComplete = true;
+            status === "FINISHED";
             break; // 如果时间耗尽或比赛结束，则退出循环
         }
-        if (status === "CORRECT") {
+        if (status === "CORRECT" || status === "PASS") {
             pauseTimer(timer); // 停止当前计时器
             await showAnswerFor1Sec(); // 显示答案并等待1秒
-            switchPlayer()
+            if(status === "CORRECT"){
+                switchPlayer()
+            }
             timer = runTimer(); // 重新开始计时
             await loadQuestion(); // 等答案显示完毕后加载新问题
             msLeft = currentPlayer === 1 ? timer1Left : timer2Left; // 重置剩余时间
         }
-        else if (status === "PASS") {
-                pauseTimer(timer); // 停止当前计时器
-                await showAnswerFor1Sec(); // 显示答案并等待1秒
-                timer = runTimer(); // 重新开始计时
-                await loadQuestion();
-            }
-        // 短暂延迟再次检查，以避免过于频繁的请求
 
+        // 短暂延迟再次检查，以避免过于频繁的请求
         await new Promise(resolve => setTimeout(resolve, 1000));
     }
 }

@@ -70,6 +70,10 @@ def get_next_question():
 
 @question_api_bp.route('/start-signal')
 def check_start_signal():
+    # global game_started
+    # status = get_question_status()
+    # if status == "FINISHED":
+    #     game_started = False
     return jsonify({'start': game_started})
 
 
@@ -88,6 +92,8 @@ def update_question_status(status):
         update_question_status_globally(QUESTION_STATUS.PASS)
     elif status.upper() == 'CORRECT':
         update_question_status_globally(QUESTION_STATUS.CORRECT)
+    elif status.upper() == "FINISHED":
+        update_question_status_globally(QUESTION_STATUS.FINISHED)
     else:
         abort(400)
 
