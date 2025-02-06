@@ -1,56 +1,125 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>duel Stage</title>
+    <title>Duel Stage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            text-align: center; /* Centers the content */
+        body, html {
+            height: 100%;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT') center/cover no-repeat fixed;
+            color: white;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 21, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .image-container {
+            width: 100%;
+            max-width: 600px; /* 减小最大宽度 */
+            height: 300px; /* 固定高度 */
+            margin: 20px auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* 防止图片溢出 */
         }
 
         #questionImage {
-            width: 80%; /* Adjusts the size of the image */
-            max-width: 600px; /* Maximum size */
-            height: auto;
-            display: block;
-            margin: 20px auto; /* Centers the image and adds space above and below */
+            width: auto;
+            height: 100%;
+            max-width: 100%;
+            object-fit: contain; /* 保持图片比例 */
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .text-line {
+            width: 80%;
+            max-width: 600px; /* 与图片容器保持一致 */
+            margin: 20px auto;
+            padding: 15px; /* 减小内边距 */
+            font-size: 2rem; /* 稍微减小字体大小 */
+            text-align: center;
+            line-height: 2.5em; /* 根据实际需要调整数值 */
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .timers {
             display: flex;
             justify-content: center;
-            gap: 200px;
+            gap: 100px; /* 减小计时器之间的间距 */
             margin-top: 20px;
+            width: 100%;
         }
 
         .timer {
-            font-size: 30px;
-            color: grey;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(0, 149, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
         }
 
-        .text-line {
-            margin-top: 20px; /* Added margin-top for spacing */
-            background-color: #f0f0f0;
-            padding: 10px 0;
-            font-size: 40px;
+        @media (max-width: 768px) {
+            .image-container {
+                height: 200px; /* 移动端更小的高度 */
+            }
+
+            .timers {
+                gap: 20px;
+                flex-direction: row; /* 保持水平排列 */
+            }
+
+            .text-line {
+                font-size: 1.5rem;
+                padding: 10px;
+            }
+
+            .timer {
+                font-size: 1.5rem;
+                padding: 10px 20px;
+            }
         }
     </style>
 </head>
 <body>
+<div class="container">
+    <div class="image-container">
+        <img id="questionImage" src="{{ url_for('static', filename='img/not_started.png') }}" alt="Question Image">
+    </div>
 
-<img id="questionImage" src="{{ url_for('static', filename='img/not_started.png') }}">
+    <div class="text-line" id="answerText">?</div>
 
-<div class="text-line" id="answerText">?</div>
-
-<div class="timers">
-    <div id="timer1" class="timer">00:45</div>
-    <div id="timer2" class="timer">00:45</div>
+    <div class="timers">
+        <div id="timer1" class="timer">00:45</div>
+        <div id="timer2" class="timer">00:45</div>
+    </div>
 </div>
 
 <script src="{{ url_for('static', filename='js/duel_player.js') }}"></script>
-
 </body>
 </html>

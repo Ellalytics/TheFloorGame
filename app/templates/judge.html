@@ -1,103 +1,222 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>duel Judge</title>
+    <title>Duel Judge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body, html {
             height: 100%;
             margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url('{{ url_for('static', filename='img/floor_background.jpg') }}') center/cover no-repeat fixed;
+            color: white;
+        }
+
+        .container {
+            min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
             flex-direction: column;
-        }
-
-        .row {
-            display: flex;
-            justify-content: center;
             align-items: center;
-            margin-bottom: 20px; /* Space between rows */
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 21, 0.7);
+            backdrop-filter: blur(10px);
         }
 
-        .button, button, select {
-            width: 150px; /* Uniform width */
-            height: 50px; /* Uniform height */
-            font-size: 20px; /* Larger text */
-            margin: 10px; /* Spacing around elements */
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(0, 149, 255, 0.8);
+            margin-bottom: 2rem;
+            letter-spacing: 4px;
+        }
+
+        .control-panel {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        select {
+            width: 250px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            padding: 0 20px;
             cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
         }
 
-        #categorySelect {
-            margin-right: 0; /* Adjust if needed for alignment */
-            margin-left: 10px; /* Align spacing with buttons */
+        select:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        select option {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .image-container {
+            width: 100%;
+            max-width: 500px; /* 从800px减小到500px */
+            height: 300px; /* 添加固定高度 */
+            margin: 2rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
         #questionImage {
-            width: 80%; /* Adjusts the size of the image */
-            max-width: 600px; /* Maximum size */
+            width: auto;
             height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
             display: block;
-            margin: 20px auto; /* Centers the image and adds space above and below */
         }
 
-        .text-line {
-            margin: 20px; /* Added margin for spacing */
-            padding: 10px 0;
-            font-size: 40px;
+        #answerText {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            margin: 1.5rem 0;
+            min-height: 60px;
+            text-align: center;
         }
 
-        #startButton { /* Style the start button similarly */
-            background-color: blue; /* Bootstrap-like blue for visual consistency */
-            color: white; /* Text color */
-            border-radius: 5px; /* Optional: rounded corners */
+        .button-container {
+            display: flex;
+            gap: 40px;
+            margin-top: 1rem;
+        }
+
+        button {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #startButton {
+            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        #startButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
         }
 
         #correctButton {
-            background-color: lightgreen;
-            margin-right: 50px; /* Half the desired space on the right */
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        #correctButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
         }
 
         #passButton {
-            background-color: lightcoral;
-            margin-left: 50px; /* Half the desired space on the left */
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        #passButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .control-panel {
+                flex-direction: column;
+            }
+
+            .button-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .title {
+                font-size: 2.5rem;
+            }
+
+            select, button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .image-container {
+                height: 200px; /* 移动端更小的高度 */
+                padding: 10px;
+                max-width: 300px; /* 移动端更小的宽度 */
+            }
         }
     </style>
 </head>
 <body>
-<div class="row">
-    <select id="categorySelect">
-        <option value="bugs">bugs</option>
-        <option value="apps">apps</option>
-        <option value="landmarks">landmarks</option>
-        <option value="states">states</option>
-        <option value="countries">countries</option>
-        <option value="space">space</option>
-        <option value="fruits">fruits</option>
-        <option value="vegetables">vegetables</option>
-        <option value="fast food">fast food</option>
-        <option value="slogan">slogan</option>
-        <option value="human body">human body</option>
-        <option value="clothing and accessory">clothing and accessory</option>
-        <option value="shoes">shoes</option>
-        <option value="desserts">desserts</option>
-        <option value="tools">tools</option>
-        <option value="sports equipment">sports equipment</option>
-        <option value="junk drawer items">junk drawer items</option>
+<div class="container">
+    <h1 class="title">DUEL JUDGE</h1>
 
-    </select>
-    <button id="startButton" onclick="startCategory()">Start</button>
-</div>
+    <div class="control-panel">
+        <select id="categorySelect">
+            <option value="bugs">Bugs</option>
+            <option value="apps">Apps</option>
+            <option value="landmarks">Landmarks</option>
+            <option value="states">States</option>
+            <option value="countries">Countries</option>
+            <option value="space">Space</option>
+            <option value="fruits">Fruits</option>
+            <option value="vegetables">Vegetables</option>
+            <option value="fast food">Fast Food</option>
+            <option value="slogan">Slogan</option>
+            <option value="human body">Human Body</option>
+            <option value="clothing and accessory">Clothing & Accessory</option>
+            <option value="shoes">Shoes</option>
+            <option value="desserts">Desserts</option>
+            <option value="tools">Tools</option>
+            <option value="sports equipment">Sports Equipment</option>
+            <option value="junk drawer items">Junk Drawer Items</option>
+        </select>
+        <button id="startButton" onclick="startCategory()">Start</button>
+    </div>
 
-<img id="questionImage" src="{{ url_for('static', filename='img/not_started.png') }}">
+    <div class="image-container">
+        <img id="questionImage" src="{{ url_for('static', filename='img/not_started.png') }}" alt="Question Image">
+    </div>
 
-<div class="text-line" id="answerText"></div>
+    <div id="answerText"></div>
 
-<div class="row">
-    <button id="correctButton" class="button" onclick="submitStatus('CORRECT')">CORRECT</button>
-    <button id="passButton" class="button" onclick="submitStatus('PASS')">PASS</button>
+    <div class="button-container">
+        <button id="correctButton" onclick="submitStatus('CORRECT')">Correct</button>
+        <button id="passButton" onclick="submitStatus('PASS')">Pass</button>
+    </div>
 </div>
 
 <script src="{{ url_for('static', filename='js/duel_judge.js') }}"></script>
-
 </body>
 </html>
