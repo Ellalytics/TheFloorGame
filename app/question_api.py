@@ -1,6 +1,6 @@
 from datetime import time
 
-from flask import Blueprint, jsonify, abort
+from flask import Blueprint, jsonify, abort, current_app
 from flask import jsonify, url_for
 import os
 from random import choice
@@ -29,7 +29,7 @@ def get_next_question():
     category = wait_for_duel_start()
 
     # Define the path to the category's image directory
-    images_dir_path = f'/Users/xue/Documents/workspace/FloorDuet/app/static/img/category/{category}'
+    images_dir_path = os.path.join(current_app.root_path, 'static', 'img', 'category', category)
 
     try:
         images_list = os.listdir(images_dir_path)
